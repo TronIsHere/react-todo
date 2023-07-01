@@ -7,7 +7,7 @@ interface props {
 }
 
 const TodoRadioButton: FC<props> = ({color,clickHandler,isDone})=> {
-  console.log('bg-' + color);
+  
     return(
         <div className={`rounded-full border-2 w-5 h-4 flex items-center justify-center ml-3`} style={{borderColor : color}} onClick={()=>clickHandler()}>
         <div className={` w-2 h-2 rounded-full ${isDone? '' : 'hidden'}`} style={{backgroundColor : color}}></div>

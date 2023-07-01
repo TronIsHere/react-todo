@@ -7,7 +7,7 @@ import TodoRadioButton from "./todoRadioButton";
 interface props {
   todo: Todo;
   deleteTodo: (id: number) => void;
-  toggleTodo: (id: number) => void;
+  toggleTodo: (id: number,todo:Todo) => void;
   updateTodo: (id: number, title: string) => void;
 }
 
@@ -39,7 +39,7 @@ const TodoItem: FC<props> = ({ todo, deleteTodo, toggleTodo, updateTodo }) => {
 
   return (
     <div className="flex mb-4 items-center border-2 p-2 border-gray-100 rounded-md ">
-      <TodoRadioButton color={radioPriority()} clickHandler={()=> toggleTodo(todo.id)} isDone={todo.isDone}></TodoRadioButton>
+      <TodoRadioButton color={radioPriority()} clickHandler={()=> toggleTodo(todo.id,todo)} isDone={todo.isDone}></TodoRadioButton>
       {todo.isDone ? (
         <input
           type="text"

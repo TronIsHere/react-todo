@@ -1,8 +1,10 @@
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { collection, doc, onSnapshot, query, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react'
 import AddTodo from './components/todos/addTodo'
 import TodoItem from './components/todos/todoItem'
+import { db } from './firebase';
 import Todo from './models/todos'
 import './style.css'
 
@@ -20,7 +22,8 @@ function App() {
       todo
     ]);
     const updatedTasks = [...todos,todo];
-    localStorage.setItem('todoList',JSON.stringify(updatedTasks))
+    localStorage.setItem('todoList',JSON.stringify(updatedTasks));
+    
   };
   const removeTodo = (id:number) :void =>{
     setTodos(
@@ -32,8 +35,8 @@ function App() {
   }
 
 
-  const toggleTodo =  (id:number) : void=>{
-    setTodos( todos.map((todo: Todo) => {
+  const toggleTodo = async  (id:number,todo:Todo) : Promise<void>=>{
+    setTodos( todos.map((todo: Todo) => {   
       if (todo.id === id) {
         return {
           ...todo,
@@ -42,8 +45,9 @@ function App() {
       };
       return todo
     }));
+    await updateDoc(doc(db,'todo',id.toString()),{isDone: !todo.isDone});
   }
-  const updateTodo =  (id:number,newTitle:string) : void=>{
+  const updateTodo = async (id:number,newTitle:string) : Promise<void>=>{
     setTodos( todos.map((todo: Todo) => {
       if (todo.id === id) {
         return {
@@ -53,7 +57,20 @@ function App() {
       };
       return todo
     }));
+    await updateDoc(doc(db,'todo',id.toString()),{title:newTitle});
   }
+  useEffect(()=>{
+    const q = query(collection(db,'todo'));
+    const unSubscribe = onSnapshot(q,(querySnapShot)=>{
+      let todoArr:any = [];
+      querySnapShot.forEach((doc)=>{
+        todoArr.push({...doc.data(),id:doc.id});
+       
+      });
+      setTodos(todoArr)
+    });
+    return ()=> unSubscribe();
+  },[])
   useEffect(()=>{
     const storedItem:string = localStorage.getItem('todoList') || '';
     if(storedItem !== ''){
