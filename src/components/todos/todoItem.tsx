@@ -70,11 +70,6 @@ const TodoItem: FC<props> = ({ todo, deleteTodo, toggleTodo, updateTodo }) => {
           ref={inputRef}
         />
       )}
-    <button
-        className="flex-no-shrink p-2 ml-4 border-2 w-32 rounded text-neutral-600 border-neutral-600 cursor-default dark:text-white dark:border-white "
-      >
-        {todo.priority == 4 ? 'No priority' : `Priority ${todo.priority}`}  
-      </button>
       <button
         className="flex-no-shrink p-2 ml-4 border-2 rounded text-neutral-600 border-neutral-600 hover:text-white hover:bg-neutral-600 dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-neutral-600 "
         onClick={() => editHandler()}
