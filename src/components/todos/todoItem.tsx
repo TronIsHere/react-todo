@@ -1,4 +1,4 @@
-import { faFlag } from "@fortawesome/free-solid-svg-icons";
+import { faFlag, faPencil, faTrash, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC, useState, useRef } from "react";
 import Todo from "../../models/todos";
@@ -74,13 +74,13 @@ const TodoItem: FC<props> = ({ todo, deleteTodo, toggleTodo, updateTodo }) => {
         className="flex-no-shrink p-2 ml-4 border-2 rounded text-neutral-600 border-neutral-600 hover:text-white hover:bg-neutral-600 dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-neutral-600 "
         onClick={() => editHandler()}
       >
-        {editState ? "Confirm" : "Edit"}
+        {editState ? "Confirm" : <FontAwesomeIcon icon={faPencil}></FontAwesomeIcon>}
       </button>
       <button
         className="flex-no-shrink p-2 ml-2 border-2 rounded text-red-600 border-red-600 hover:text-white hover:bg-red-600"
         onClick={() => deleteTodo(todo.id)}
       >
-        Remove
+        <FontAwesomeIcon icon={faTrashCan}></FontAwesomeIcon>
       </button>
 
     </div>
