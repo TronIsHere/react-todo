@@ -9,7 +9,7 @@ import './style.css'
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [darkMode, setDarkMode] = useState<boolean>(true);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
   function toggleDarkMode() {
     setDarkMode(prevDarkMode => !prevDarkMode)
@@ -70,7 +70,7 @@ function App() {
   },[todos])
   return (
     <>
-    <div className={`h-100 w-full flex items-center justify-center bg-teal-lightest font-sans h-screen ${darkMode? 'dark' : ''}`}>
+    <div className={`h-100 w-full flex justify-center bg-teal-lightest font-sans h-screen ${darkMode? 'dark' : ''}`}>
       <div className="bg-white rounded shadow p-6 m-4 w-full  dark:bg-gray-600">
         <div className="mb-4">
          <div className='flex flex-row justify-between'>

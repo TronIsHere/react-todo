@@ -1,3 +1,71 @@
 .dark{
     @apply bg-gray-800 text-zinc-50;
 }
+
+.custom-check, .custom-radio { margin: 20px; }
+
+/* VISUALLY HIDE THE ORIGINAL CHECKBOX/RADIOBUTTON */
+.custom-check input[type=checkbox],
+.custom-radio input[type=radio] {
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    margin: -1px;
+    clip: rect(0,0,0,0);
+    overflow: hidden;
+    position: absolute;
+}
+
+.custom-check-elem, .custom-radio-elem,
+.custom-check-label, .custom-radio-label {
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+/* CUSTOM CHECKBOX */
+.custom-check-elem, 
+.custom-radio-elem { 
+    display: inline-block;
+    position: relative;
+    margin-right: 4px;
+    border: 2px solid white;
+    width: 16px;
+    height: 16px;
+}
+/* CUSTOM RADIOBUTTON */
+.custom-radio-elem { 
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+}
+
+/* CUSTOM CHECKBOX/RADIOBUTTON CHECK */
+.custom-check-elem:before,
+.custom-radio-elem:before {
+    content: "\00d7";
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-family: verdana, arial, sans-serif;
+    font-size: 1.0em;
+    line-height: 1.0em;
+    font-weight: bold;
+    text-align: center;
+}
+/* CUSTOM RADIOBUTTON CHECK */
+.custom-radio-elem:before {
+    content: "\2022";
+    font-size: 1.25em;
+    line-height: 0.7em;
+}
+
+/* PSEUDO ELMENT CONTENT FOR CHECKED STATE */
+.custom-check-input:checked + .custom-check-elem:before,
+.custom-radio-input:checked + .custom-radio-elem:before { display: block; }
+/* IE8: needs js-fallback for :checked, don't mix selectors! */
+.custom-check-input.checked + .custom-check-elem:before,
+.custom-radio-input.checked + .custom-radio-elem:before { display: block; }

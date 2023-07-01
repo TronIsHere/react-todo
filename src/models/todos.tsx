@@ -5,3 +5,4 @@ export default interface Todo{
     editable:boolean,
     priority?:number
   }
+

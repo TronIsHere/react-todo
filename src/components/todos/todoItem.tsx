@@ -2,6 +2,7 @@ import { faFlag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC, useState, useRef } from "react";
 import Todo from "../../models/todos";
+import TodoRadioButton from "./todoRadioButton";
 
 interface props {
   todo: Todo;
@@ -22,8 +23,23 @@ const TodoItem: FC<props> = ({ todo, deleteTodo, toggleTodo, updateTodo }) => {
       inputRef.current?.focus();
     }
   };
+  const radioPriority = ():string=>{
+    switch(todo.priority){
+      case 1:
+        return '#ff2e2e';
+      case 2:
+        return '#f7a63b';
+      case 3:
+        return '#39e344';
+      default:
+        return '#827d7e'
+    }
+  }
+
+
   return (
-    <div className="flex mb-4 items-center">
+    <div className="flex mb-4 items-center border-2 p-2 border-gray-100 rounded-md ">
+      <TodoRadioButton color={radioPriority()} clickHandler={()=> toggleTodo(todo.id)} isDone={todo.isDone}></TodoRadioButton>
       {todo.isDone ? (
         <input
           type="text"
@@ -33,9 +49,10 @@ const TodoItem: FC<props> = ({ todo, deleteTodo, toggleTodo, updateTodo }) => {
           onChange={(e) => setInput(e.target.value)}
           className={
             editState
-              ? "bg-white w-full p-2 border-r-cyan-600 border-2 rounded-sm  dark:bg-gray-600"
-              : "bg-white w-full line-through text-green-600 p-2  dark:bg-gray-600" 
+              ? "bg-white w-full p-2 border-r-cyan-600 border-2 rounded-sm  dark:bg-gray-600 "
+              : "bg-white w-full line-through  p-2  dark:bg-gray-600" 
           }
+          style={{color:radioPriority()}}
           ref={inputRef}
         />
       ) : (
@@ -64,21 +81,6 @@ const TodoItem: FC<props> = ({ todo, deleteTodo, toggleTodo, updateTodo }) => {
       >
         {editState ? "Confirm" : "Edit"}
       </button>
-      {todo.isDone ? (
-        <button
-          className="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded w-32 hover:text-white text-grey-600 border-gray-600 dark:border-white hover:bg-gray-600"
-          onClick={() => toggleTodo(todo.id)}
-        >
-          Not Done
-        </button>
-      ) : (
-        <button
-          className="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-green-600 border-green-600 hover:bg-green-600"
-          onClick={() => toggleTodo(todo.id)}
-        >
-          Done
-        </button>
-      )}
       <button
         className="flex-no-shrink p-2 ml-2 border-2 rounded text-red-600 border-red-600 hover:text-white hover:bg-red-600"
         onClick={() => deleteTodo(todo.id)}
