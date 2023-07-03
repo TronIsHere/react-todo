@@ -1,5 +1,5 @@
 export default interface Todo{
-    id:number,
+    id?:number | string,
     title:string,
     isDone:boolean,
     editable:boolean,

@@ -1,7 +1,8 @@
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { collection, doc, onSnapshot, query, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react'
+
 import AddTodo from './components/todos/addTodo'
 import TodoItem from './components/todos/todoItem'
 import { db } from './firebase';
@@ -16,22 +17,24 @@ function App() {
   function toggleDarkMode() {
     setDarkMode(prevDarkMode => !prevDarkMode)
   }
-  const addTodo =  (todo:Todo):void=>{
+  const addTodo = async (todo:Todo):Promise<void>=>{
      setTodos([
       ...todos,
       todo
     ]);
     const updatedTasks = [...todos,todo];
     localStorage.setItem('todoList',JSON.stringify(updatedTasks));
-    
+    await addDoc(collection(db,'todo'),{
+      ...todo
+    })
   };
-  const removeTodo = (id:number) :void =>{
+  const removeTodo = async (id:number | string) :Promise<void> =>{
     setTodos(
       todos.filter((todo:Todo) => todo.id !== id)
     );
     const updatedTasks:Todo[] =  todos.filter((todo:Todo) => todo.id !== id);
     localStorage.setItem('todoList',JSON.stringify(updatedTasks))
-    
+    // await deleteDoc(doc(db,'todo',id))
   }
 
 
@@ -68,8 +71,10 @@ function App() {
        
       });
       setTodos(todoArr)
+      console.log(todoArr);
     });
     return ()=> unSubscribe();
+    
   },[])
   useEffect(()=>{
     const storedItem:string = localStorage.getItem('todoList') || '';

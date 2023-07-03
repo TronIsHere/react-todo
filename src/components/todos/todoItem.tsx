@@ -6,7 +6,7 @@ import TodoRadioButton from "./todoRadioButton";
 
 interface props {
   todo: Todo;
-  deleteTodo: (id: number) => void;
+  deleteTodo: (id: number | string) => void;
   toggleTodo: (id: number,todo:Todo) => void;
   updateTodo: (id: number, title: string) => void;
 }
